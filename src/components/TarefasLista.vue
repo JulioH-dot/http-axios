@@ -10,7 +10,7 @@
           <div class="col-sm-2">
             <button
                 class="btn btn-primary float-right"
-                @click="exibirForms = !exibirForms"
+                @click="exibirFormCriarTask"
             >
                 <i class="fa fa-plus mr-2"></i>
                 <span>Criar</span>
@@ -20,10 +20,12 @@
 
         <ul class="list-group" v-if="tarefas.length > 0">
             <TarefasListaIten
-                v-for="tarefa in tarefas"
+                v-for="tarefa in taskOrdenadas"
                 :key="tarefa.id"
                 :tarefa="tarefa"
                 @editar="selectTaskEdit"
+                @deletar="deleteTask"
+                @concluir="editTask"
             />
         </ul>
 
@@ -60,6 +62,19 @@ export default {
 
         }
     },
+    computed:{
+      taskOrdenadas(){
+        return this.tarefas.slice().sort((t1, t2)=>{
+          if (t1.concluido === t2.concluido){
+            return t1.titulo <t2.titulo
+              ? -1
+                :t1.titulo > t2.titulo
+                  ? 1 : 0
+          }
+          return t1.concluido - t2.concluido
+        })
+      }
+    },
     methods:{
       criarTask(tarefa){
         axios.post(`${config.apiURL}/tarefas`,tarefa)
@@ -76,6 +91,25 @@ export default {
               this.tarefas.splice(indice, 1, tarefa)
               this.reset()
             })
+      },
+      deleteTask(tarefa){
+        const confirmar = window.confirm(`Deseja deletar a tarefa ${tarefa.titulo}?`)
+        if(confirmar){
+          axios.delete(`${config.apiURL}/tarefas/${tarefa.id}`)
+              .then((response)=>{
+                console.log(`DELETE /tarefas/${tarefa.id}`, response)
+                const indice = this.tarefas.findIndex( t => t.id === tarefa.id)
+                this.tarefas.splice(indice, 1)
+              })
+        }
+
+      },
+      exibirFormCriarTask(){
+        if(this.taskSelected){
+          this.taskSelected = undefined
+          return
+        }
+        this.exibirForms = !this.exibirForms
       },
       reset(){
         this.taskSelected = undefined

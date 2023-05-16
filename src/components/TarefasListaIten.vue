@@ -2,7 +2,12 @@
     <li class="list-group-item d-flex">
         <span>{{ tarefa.titulo }}</span>
         <span class="espacar"></span>
-        <button class="btn btn-sm mr-4" :class="classeCSS" :title="tituloBotaoConcluido">
+        <button
+            class="btn btn-sm mr-4"
+            :class="classeCSS"
+            :title="tituloBotaoConcluido"
+            @click="concluirTask"
+        >
             <i class="fa fa-check"></i>
         </button>
         <button class="btn btn-primary btn-sm mr-1"
@@ -11,7 +16,11 @@
         >
             <i class="fa fa-pencil-alt"></i>
         </button>
-        <button class="btn btn-danger btn-sm" title="Deletar">
+        <button
+            class="btn btn-danger btn-sm"
+            title="Deletar"
+            @click="$emit('deletar', tarefa)"
+        >
             <i class="fa fa-trash"></i>
         </button>
     </li>
@@ -37,7 +46,12 @@ export default {
                 ? 'Refazer Tarefa'
                 : 'Concluir Tarefa'
         }
+    },
+  methods:{
+    concluirTask(){
+      this.$emit('concluir', Object.assign({}, this.tarefa, {concluido: !this.tarefa.concluido}))
     }
+  },
 }
 </script>
 

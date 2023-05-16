@@ -8,16 +8,16 @@
     {
       "id": 2,
       "titulo": "Aprender Vue",
-      "concluido": true
+      "concluido": false
     },
     {
       "id": 3,
       "titulo": "Aprender Axios",
-      "concluido": true
+      "concluido": false
     },
     {
       "titulo": "Aprender GraphQL",
-      "concluido": false,
+      "concluido": true,
       "id": 4
     }
   ]
