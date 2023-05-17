@@ -3,7 +3,7 @@
     {
       "id": 1,
       "titulo": "Aprender JavaScript",
-      "concluido": true
+      "concluido": false
     },
     {
       "id": 2,
@@ -16,9 +16,20 @@
       "concluido": false
     },
     {
-      "titulo": "Aprender GraphQL",
-      "concluido": true,
-      "id": 4
+      "titulo": "Docker",
+      "concluido": false,
+      "id": 5,
+      "curso": "Vue.JS"
+    },
+    {
+      "titulo": "Estudar para SAA-C03",
+      "concluido": false,
+      "id": 6
+    },
+    {
+      "titulo": "AWS Cloud Pratictioner ",
+      "id": 7,
+      "concluido": false
     }
   ]
 }

@@ -43,8 +43,7 @@
 
 <script>
 
-import axios from 'axios'
-import config from "@/config/config"
+import instance from '@/axios'
 
 
 import TarefaSalvar from './TarefaSalvar.vue'
@@ -77,31 +76,31 @@ export default {
     },
     methods:{
       criarTask(tarefa){
-        axios.post(`${config.apiURL}/tarefas`,tarefa)
-            .then((response)=>{
-              this.tarefas.push(response.data)
-              this.reset()
-            })
+          instance.post(`/tarefas`,tarefa)
+              .then((response)=>{
+                  this.tarefas.push(response.data)
+                  this.reset()
+              })
       },
       editTask(tarefa){
-        axios.put(`${config.apiURL}/tarefas/${tarefa.id}`, tarefa)
-            .then((response)=>{
+          instance.put(`/tarefas/${tarefa.id}`, tarefa)
+          .then((response)=>{
               console.log(`PUT /tarefas/${tarefa.id}`, response)
               const indice = this.tarefas.findIndex( t => t.id === tarefa.id)
               this.tarefas.splice(indice, 1, tarefa)
               this.reset()
-            })
+          })
       },
       deleteTask(tarefa){
-        const confirmar = window.confirm(`Deseja deletar a tarefa ${tarefa.titulo}?`)
-        if(confirmar){
-          axios.delete(`${config.apiURL}/tarefas/${tarefa.id}`)
-              .then((response)=>{
-                console.log(`DELETE /tarefas/${tarefa.id}`, response)
-                const indice = this.tarefas.findIndex( t => t.id === tarefa.id)
-                this.tarefas.splice(indice, 1)
-              })
-        }
+          const confirmar = window.confirm(`Deseja deletar a tarefa ${tarefa.titulo}?`)
+          if(confirmar){
+              instance.delete(`/tarefas/${tarefa.id}`)
+                  .then((response)=>{
+                      console.log(`DELETE /tarefas/${tarefa.id}`, response)
+                      const indice = this.tarefas.findIndex( t => t.id === tarefa.id)
+                      this.tarefas.splice(indice, 1)
+                  })
+          }
 
       },
       exibirFormCriarTask(){
@@ -121,9 +120,9 @@ export default {
       }
     },
   created() {
-      axios.get(`${config.apiURL}/tarefas`)
+      instance.get(`/tarefas`)
           .then((response)=>{
-            this.tarefas = response.data
+              this.tarefas = response.data
           })
   }
 }
